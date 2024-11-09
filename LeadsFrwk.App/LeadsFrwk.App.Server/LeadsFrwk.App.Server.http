@@ -1,0 +1,6 @@
+@LeadsFrwk.App.Server_HostAddress = http://localhost:5124
+
+GET {{LeadsFrwk.App.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
