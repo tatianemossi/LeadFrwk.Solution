@@ -26,7 +26,10 @@ namespace LeadsFrwk.Server.Domain.Commands.AddLeadCommand
                     Description = request.Description,
                     Price = request.Price,
                     Suburb = request.Suburb,
-                    Status = StatusLeadEnum.Created
+                    Status = StatusLeadEnum.Created,
+                    ContactLastName = request.ContactLastName,
+                    PhoneNumber = request.PhoneNumber,
+                    Email = request.Email
                 };
 
                 var result = await _leadService.AddAsync(lead, cancellationToken);

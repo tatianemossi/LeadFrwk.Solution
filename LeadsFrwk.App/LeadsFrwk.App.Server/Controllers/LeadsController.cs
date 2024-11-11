@@ -3,6 +3,7 @@ using LeadsFrwk.Server.Domain.Commands.AddLeadCommand;
 using LeadsFrwk.Server.Domain.Commands.DeleteLeadCommand;
 using LeadsFrwk.Server.Domain.Entities;
 using LeadsFrwk.Server.Domain.Enums;
+using LeadsFrwk.Server.Domain.LeadChangeStatus;
 using LeadsFrwk.Server.Domain.Queries.GetAllLeadsQuery;
 using LeadsFrwk.Server.Domain.Queries.GetByIdLeadQuery;
 using MediatR;
@@ -45,9 +46,9 @@ namespace LeadsFrwk.App.Server.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<StatusCodeResult> ChangeStatusLead(int id, [FromBody] StatusLeadEnum status)
+        public async Task<StatusCodeResult> ChangeStatusLead(int id, [FromBody] LeadChangeStatusRequestModel body)
         {
-            var success = await _mediator.Send(new ChangeStatusLeadCommand(id, status));
+            var success = await _mediator.Send(new ChangeStatusLeadCommand(id, body.Status, body.Price));
             if (success)
                 return Ok();
             return BadRequest();

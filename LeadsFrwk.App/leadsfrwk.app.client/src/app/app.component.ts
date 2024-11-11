@@ -15,6 +15,9 @@ interface Lead {
   description: string;
   price: number;
   status: number;
+  phoneNumber: string;
+  email: string;
+  contactLastName: string;
 }
 
 @Component({
@@ -27,6 +30,7 @@ export class AppComponent implements OnInit {
   public leads: Lead[] = [];
   public leadsAccepteds: Lead[] = [];
   public config = new MatSnackBarConfig();
+  public showLoader: boolean = false;
 
   constructor(private http: HttpClient, private leadsService: LeadsService, private _snackBar: MatSnackBar) { }
 
@@ -43,15 +47,15 @@ export class AppComponent implements OnInit {
       (error) => console.error('Error loading results', error));
   }
 
-  changeStatusLead(id: number, status: number) {
-    console.log(status)
-    let result = this.leadsService.changeStatusLead(id, status);
+  changeStatusLead(id: number, status: number, price: number) {
+    let result = this.leadsService.changeStatusLead(id, status, price);
 
     if (result == HttpStatusCode.Ok) {
       this.openSnackBar("Status has not changed, please try again or contact to support");
     }
     else {
-      location.reload();
+      this.showLoader = true;
+      setTimeout(() => { location.reload() }, 3000);
       this.openSnackBar("Status changed successfully");
     }
   }
@@ -61,7 +65,6 @@ export class AppComponent implements OnInit {
   }
 
   loadStatus(status: number) {
-    console.log(status);
     if (status == LeadStatusEnum.Accepted)
       return "Accepted";
 

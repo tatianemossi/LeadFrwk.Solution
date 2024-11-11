@@ -15,10 +15,10 @@ export class LeadsService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  changeStatusLead(id: number, status: number): any  {
-    let body = {status}
+  changeStatusLead(id: number, status: number, price: number): any  {
+    let body = { status, price }
 
-    this.http.put<any>(this.apiUrl + id, status)
+    this.http.put<any>(this.apiUrl + id, body)
     .subscribe({
       next: data => {return data},
       error: error => {

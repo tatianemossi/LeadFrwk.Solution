@@ -12,5 +12,9 @@ namespace LeadsFrwk.Server.Domain.Entities
         public string? Description { get; set; }
         public double Price { get; set; }
         public StatusLeadEnum Status { get; set; }
+        public string? ContactLastName { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+
     }
 }

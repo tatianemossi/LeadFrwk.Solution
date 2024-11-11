@@ -17,6 +17,7 @@
 .avatar {
   font-size: 40px;
   color: #ff9800;
+  padding: 20px;
 }
 
 h3 {
@@ -32,12 +33,20 @@ p {
 
 .details {
   margin-top: 8px;
+  margin: 10px;
   color: #666;
   font-size: 14px;
 }
 
+.details-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
 .spacer {
-  margin: 0 8px;
+  margin: 0 18px;
 }
 
 .actions {
@@ -48,14 +57,58 @@ p {
 
 button {
   margin-right: 8px;
+  border-color: #ff9800;
 }
 
 .btnAccept {
   background-color: #ff9800
 }
 
+.btnDecline {
+  background-color: #e4e8eb
+}
+
 .lead-invitation {
   margin-left: auto;
   font-weight: bold;
   color: #666;
+}
+
+.margin {
+  margin: 20px;
+}
+
+.dp-accept {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.orange {
+  color: #ff9800;
+}
+
+.container {
+  display: flex;
+  align-items: center; 
+}
+
+.icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  color: #ff9800;
 }
