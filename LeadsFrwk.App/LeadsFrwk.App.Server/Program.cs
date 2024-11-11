@@ -12,6 +12,7 @@ namespace LeadsFrwk.App.Server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
             // Add services to the container.
             builder.Services.AddServices();
@@ -23,6 +24,15 @@ namespace LeadsFrwk.App.Server
             builder.Services.AddSwaggerGen();
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             builder.Services.AddMediatR(typeof(AddLeadCommand).GetTypeInfo().Assembly);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                                  });
+            });
 
             var app = builder.Build();
 
@@ -43,6 +53,10 @@ namespace LeadsFrwk.App.Server
             app.MapControllers();
 
             app.MapFallbackToFile("/index.html");
+
+            app.UseHttpsRedirection();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.Run();
         }

@@ -1,24 +1,27 @@
-﻿<h1 id="tableLabel">Weather forecast</h1>
-
-<p>This component demonstrates fetching data from the server.</p>
-
-<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
-
-<table *ngIf="forecasts">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-        </tr>
-    </tbody>
-</table>
+﻿<mat-tab-group dynamicHeight>
+    <mat-tab label="Invited">
+        <mat-card class="card" *ngFor="let item of leads">
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title>{{item.contactFirstName}}</mat-card-title>
+                    <mat-card-subtitle>{{item.createDate}}</mat-card-subtitle>
+                    <mat-card-content>
+                        {{item.suburb}} {{item.category}} Job ID: {{item.id}}
+                        {{item.description}}
+                    </mat-card-content>
+                    <mat-card-title>{{item.id}}</mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-button (click)="changeStatusLead(item.id, 1)" >Accept</button>
+                <button mat-button>Decline</button>
+                {{item.price}} Lead Invitation
+            </mat-card-actions>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Accepted">
+        <div class="example-large-box mat-elevation-z4">
+            Accepted
+        </div>
+    </mat-tab>
+</mat-tab-group>

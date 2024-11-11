@@ -1,6 +1,8 @@
-﻿using LeadsFrwk.Server.Domain.Commands.AddLeadCommand;
+﻿using LeadsFrwk.Server.Domain.Commands.AcceptedLeadCommand;
+using LeadsFrwk.Server.Domain.Commands.AddLeadCommand;
 using LeadsFrwk.Server.Domain.Commands.DeleteLeadCommand;
 using LeadsFrwk.Server.Domain.Entities;
+using LeadsFrwk.Server.Domain.Enums;
 using LeadsFrwk.Server.Domain.Queries.GetAllLeadsQuery;
 using LeadsFrwk.Server.Domain.Queries.GetByIdLeadQuery;
 using MediatR;
@@ -23,7 +25,8 @@ namespace LeadsFrwk.App.Server.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<Lead?>> Get()
         {
-            return await _mediator.Send(new GetAllLeadsQuery());
+            var result = await _mediator.Send(new GetAllLeadsQuery());
+            return result;
         }
 
         [HttpGet("{id}")]
@@ -42,8 +45,12 @@ namespace LeadsFrwk.App.Server.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<StatusCodeResult> ChangeStatusLead(int id, [FromBody] StatusLeadEnum status)
         {
+            var success = await _mediator.Send(new ChangeStatusLeadCommand(id, status));
+            if (success)
+                return Ok();
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -52,7 +59,7 @@ namespace LeadsFrwk.App.Server.Api.Controllers
             var success = await _mediator.Send(new DeleteLeadCommand(id));
             if (success)
                 return Ok();
-            return NoContent();
+            return BadRequest();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LeadsFrwk.Server.Domain.Entities;
+using LeadsFrwk.Server.Domain.Enums;
 using LeadsFrwk.Server.Domain.Interfaces.Services;
 using MediatR;
 
@@ -24,7 +25,8 @@ namespace LeadsFrwk.Server.Domain.Commands.AddLeadCommand
                     CreateDate = DateTime.Now,
                     Description = request.Description,
                     Price = request.Price,
-                    Suburb = request.Suburb
+                    Suburb = request.Suburb,
+                    Status = StatusLeadEnum.Created
                 };
 
                 var result = await _leadService.AddAsync(lead, cancellationToken);

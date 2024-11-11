@@ -15,7 +15,8 @@ namespace LeadsFrwk.Server.Domain.Services
 
         public async Task<IEnumerable<Lead>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _leadRepository.GetAllAsync(cancellationToken);
+            var leads = await _leadRepository.GetAllAsync(cancellationToken);
+            return leads;
         }
 
         public async Task<Lead?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -26,6 +27,12 @@ namespace LeadsFrwk.Server.Domain.Services
         public async Task<Lead> AddAsync(Lead lead, CancellationToken cancellationToken)
         {
             return await _leadRepository.AddAsync(lead, cancellationToken);
+        }
+
+        public async Task<bool> UpdateAsync(Lead lead, CancellationToken cancellationToken)
+        {
+            await _leadRepository.UpdateAsync(lead, cancellationToken);
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
