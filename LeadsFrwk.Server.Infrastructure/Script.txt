@@ -1,0 +1,136 @@
+﻿-USE [leadsfrwk]
+GO
+/****** Object:  Table [dbo].[Leads]    Script Date: 12/11/2024 12:10:22 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Leads]') AND type in (N'U'))
+DROP TABLE [dbo].[Leads]
+GO
+USE [master]
+GO
+/****** Object:  Database [leadsfrwk]    Script Date: 12/11/2024 12:10:22 ******/
+DROP DATABASE [leadsfrwk]
+GO
+/****** Object:  Database [leadsfrwk]    Script Date: 12/11/2024 12:10:22 ******/
+CREATE DATABASE [leadsfrwk]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'leadsfrwk', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\leadsfrwk.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'leadsfrwk_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\leadsfrwk_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [leadsfrwk] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [leadsfrwk].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [leadsfrwk] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [leadsfrwk] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [leadsfrwk] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [leadsfrwk] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [leadsfrwk] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET RECOVERY FULL 
+GO
+ALTER DATABASE [leadsfrwk] SET  MULTI_USER 
+GO
+ALTER DATABASE [leadsfrwk] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [leadsfrwk] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [leadsfrwk] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [leadsfrwk] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [leadsfrwk] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [leadsfrwk] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'leadsfrwk', N'ON'
+GO
+ALTER DATABASE [leadsfrwk] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [leadsfrwk] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [leadsfrwk]
+GO
+/****** Object:  Table [dbo].[Leads]    Script Date: 12/11/2024 12:10:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Leads](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ContactFirstName] [nchar](100) SPARSE  NULL,
+	[CreateDate] [date] NULL,
+	[Suburb] [nchar](100) NULL,
+	[Category] [int] NULL,
+	[Description] [nchar](1000) NULL,
+	[Price] [float] NULL,
+	[Status] [int] NULL,
+	[ContactLastName] [nchar](100) NULL,
+	[PhoneNumber] [nchar](100) NULL,
+	[Email] [nchar](100) NULL
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Leads] ON 
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (1, N'Thiago', CAST(N'2024-01-08' AS Date), N'Centro', 1, N'Pintar a casa na próxima semana e fazer o restante da sobreposição do piso, ajustar os mármores e rebaixamento do gesso', 104, 0, N'Souza', N'49999533845', N'lnsthiago@teste.com')
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (2, N'Tatiane', CAST(N'2024-11-08' AS Date), N'Coral', 2, N'O artista plástico irá pintar uma cópia da Monalisa.', 123, 0, N'Mossi', N'49991846942', N'mossitatiane2@teste.com')
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (3, N'Rian', CAST(N'2024-11-09' AS Date), N'Santa Maria', 0, N'Descrevendo todas as atividades a serem realizadas.', 4500, 1, N'de Cordova', N'49999834537', N'riandecordova@teste.com')
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (4, N'João', CAST(N'2024-11-10' AS Date), N'Santa Marta', 0, N'Exemplo de descrição para essa atividade.', 3103, 1, N'de Mattos', N'4999912345', N'joaodemattos@teste.com')
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (5, N'Maria', CAST(N'2024-11-10' AS Date), N'Aparecida', 0, N'Pintura do exterior do imóvel.', 323, 1, N'Rodrigues', N'49999345337', N'mariarodrigues@teste.com')
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (6, N'Rosa', CAST(N'2024-11-10' AS Date), N'Centro', 0, N'Descrevendo a atividade do artista plástico.', 1256, 1, N'Morais', N'49999831237', N'rosamorais@teste.com')
+GO
+INSERT [dbo].[Leads] ([Id], [ContactFirstName], [CreateDate], [Suburb], [Category], [Description], [Price], [Status], [ContactLastName], [PhoneNumber], [Email]) VALUES (7, N'Pedro', CAST(N'2024-11-11' AS Date), N'Santa Maria', 0, N'Descrevendo todas as atividades a serem realizadas.', 152, 1, N'Jacó', N'49991234537', N'pedrojaco@teste.com')
+GO
+SET IDENTITY_INSERT [dbo].[Leads] OFF
+GO
+USE [master]
+GO
+ALTER DATABASE [leadsfrwk] SET  READ_WRITE 
+GO
