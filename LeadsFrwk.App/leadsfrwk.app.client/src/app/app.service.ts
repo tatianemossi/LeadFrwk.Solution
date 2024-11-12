@@ -15,15 +15,9 @@ export class LeadsService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  changeStatusLead(id: number, status: number, price: number): Observable<any> {
-    let body = { status, price }
+  changeStatusLead(id: number, status: number, price: number, email: string): Observable<any> {
+    let body = { status, price, email }
 
     return this.http.put<any>(this.apiUrl + id, body);
-  }
-
-  sendMailAccepted(id: number, email: string): Observable<any> {
-    let body = { email }
-
-    return this.http.post<any>(`${this.apiUrl}/SendMailAccepted/${id}`, body);
   }
 }

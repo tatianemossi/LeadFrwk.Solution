@@ -52,10 +52,10 @@ export class AppComponent implements OnInit {
   changeStatusLead(id: number, status: number, price: number, email: string) {
     this.showLoader = true;
 
-    this.leadsService.changeStatusLead(id, status, price).subscribe((response) => {
+    this.leadsService.changeStatusLead(id, status, price, email).subscribe((response) => {
 
       this._snackBar.open(response.message, '', {
-        duration: 1500,
+        duration: 2000,
         horizontalPosition: 'center',
         verticalPosition: 'bottom',
         panelClass: ['text-white']
@@ -63,24 +63,7 @@ export class AppComponent implements OnInit {
 
       setTimeout(() => { location.reload() }, 1500);
     });
-
-    if (status == 1)
-      this.sendMailAccepted(id, email);
-  }
-
-  sendMailAccepted(id: number, email: string) {
-    this.leadsService.sendMailAccepted(id, email).subscribe((response) => {
-
-      this._snackBar.open(response.message, '', {
-        duration: 1500,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        panelClass: ['text-white']
-      });
-
-      setTimeout(() => { location.reload() }, 1500);
-    });
-  }
+  } 
 
   loadStatus(status: number) {
     if (status == LeadStatusEnum.Accepted)

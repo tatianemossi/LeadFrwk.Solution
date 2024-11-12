@@ -1,4 +1,6 @@
-﻿using LeadsFrwk.Server.Domain.Entities;
+﻿using LeadsFrwk.Server.Domain.Commands.AcceptedLeadCommand;
+using LeadsFrwk.Server.Domain.Entities;
+using LeadsFrwk.Server.Domain.Enums;
 using LeadsFrwk.Server.Domain.Interfaces.Repositories;
 using LeadsFrwk.Server.Domain.Interfaces.Services;
 
@@ -59,6 +61,14 @@ namespace LeadsFrwk.Server.Domain.Services
         public bool SendMail(int id, string email)
         {
             return true;
+        }
+
+        public double CalculateDiscaunt(ChangeStatusLeadCommand request, double price, StatusLeadEnum status)
+        {
+            if (status == StatusLeadEnum.Accepted && request.Price > 500)
+                price = request.Price - ((request.Price * 10) / 100);
+
+            return price;
         }
     }
 }

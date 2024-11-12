@@ -1,5 +1,4 @@
-﻿using LeadsFrwk.Server.Domain.Enums;
-using LeadsFrwk.Server.Domain.Interfaces.Services;
+﻿using LeadsFrwk.Server.Domain.Interfaces.Services;
 using MediatR;
 
 namespace LeadsFrwk.Server.Domain.Commands.AcceptedLeadCommand
@@ -23,8 +22,7 @@ namespace LeadsFrwk.Server.Domain.Commands.AcceptedLeadCommand
                     return false;
 
                 lead.Status = request.Status;
-                if (lead.Status == StatusLeadEnum.Accepted && request.Price > 500)
-                    lead.Price = request.Price - ((request.Price * 10) / 100);
+                lead.Price = _leadService.CalculateDiscaunt(request, lead.Price, lead.Status);
 
                 var result = await _leadService.UpdateAsync(lead, cancellationToken);
 

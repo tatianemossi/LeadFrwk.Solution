@@ -47,19 +47,28 @@ namespace LeadsFrwk.App.Server.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ChangeStatusLead(int id, [FromBody] LeadChangeStatusRequestModel body)
         {
-            var success = await _mediator.Send(new ChangeStatusLeadCommand(id, body.Status, body.Price));
-            if (success)
-                return Ok(new { message = "Status changed successfully!" });
-            return BadRequest(new { message = "Status has not changed, please try again or contact to support!" });
-        }
+            try
+            {
+                var message = string.Empty;
 
-        [HttpPost("SendMailAccepted/{id}")]
-        public async Task<IActionResult> SendMailAccepted(int id, [FromBody] string email)
-        {
-            var success = await _mediator.Send(new SendMailAcceptedCommand(id, email));
-            if (success)
-                return Ok(new { message = "E-mail sent successfully!" });
-            return BadRequest(new { message = "E-mail has not sent, please try again or contact to support!" });
+                var success = await _mediator.Send(new ChangeStatusLeadCommand(id, body.Status, body.Price));
+                if (success)
+                {
+                    message = "Status changed successfully!";
+
+                    var mailSent = await _mediator.Send(new SendMailAcceptedCommand(id, body.Email));
+                    if (mailSent)
+                        message += "\n E-mail sent successfully!";
+                }
+                else
+                    message = "Status has not changed, please try again or contact to support!";
+
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message});
+            }
         }
 
         [HttpDelete("{id}")]

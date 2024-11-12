@@ -6,5 +6,6 @@ namespace LeadsFrwk.Server.Domain.LeadChangeStatus
     {
         public StatusLeadEnum Status { get; set; }
         public double Price { get; set; }
+        public string Email { get; set; }
     }
 }
