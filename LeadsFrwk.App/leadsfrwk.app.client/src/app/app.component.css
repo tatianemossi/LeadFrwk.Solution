@@ -89,11 +89,6 @@ button {
   color: #ff9800;
 }
 
-.container {
-  display: flex;
-  align-items: center; 
-}
-
 .icon {
   margin-right: 8px;
   display: flex;
@@ -111,4 +106,15 @@ button {
   justify-content: center;
   align-items: flex-start;
   color: #ff9800;
+}
+
+.daugther {
+    min-width: 600px;
+}
+
+.grandpa {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
 }

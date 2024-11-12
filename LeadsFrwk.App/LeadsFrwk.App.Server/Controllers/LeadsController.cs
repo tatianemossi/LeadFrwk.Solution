@@ -1,14 +1,13 @@
 ﻿using LeadsFrwk.Server.Domain.Commands.AcceptedLeadCommand;
 using LeadsFrwk.Server.Domain.Commands.AddLeadCommand;
 using LeadsFrwk.Server.Domain.Commands.DeleteLeadCommand;
+using LeadsFrwk.Server.Domain.Commands.SendMailAcceptedCommand;
 using LeadsFrwk.Server.Domain.Entities;
-using LeadsFrwk.Server.Domain.Enums;
 using LeadsFrwk.Server.Domain.LeadChangeStatus;
 using LeadsFrwk.Server.Domain.Queries.GetAllLeadsQuery;
 using LeadsFrwk.Server.Domain.Queries.GetByIdLeadQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LeadsFrwk.App.Server.Api.Controllers
 {
@@ -46,12 +45,21 @@ namespace LeadsFrwk.App.Server.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<StatusCodeResult> ChangeStatusLead(int id, [FromBody] LeadChangeStatusRequestModel body)
+        public async Task<IActionResult> ChangeStatusLead(int id, [FromBody] LeadChangeStatusRequestModel body)
         {
             var success = await _mediator.Send(new ChangeStatusLeadCommand(id, body.Status, body.Price));
             if (success)
-                return Ok();
-            return BadRequest();
+                return Ok(new { message = "Status changed successfully!" });
+            return BadRequest(new { message = "Status has not changed, please try again or contact to support!" });
+        }
+
+        [HttpPost("SendMailAccepted/{id}")]
+        public async Task<IActionResult> SendMailAccepted(int id, [FromBody] string email)
+        {
+            var success = await _mediator.Send(new SendMailAcceptedCommand(id, email));
+            if (success)
+                return Ok(new { message = "E-mail sent successfully!" });
+            return BadRequest(new { message = "E-mail has not sent, please try again or contact to support!" });
         }
 
         [HttpDelete("{id}")]

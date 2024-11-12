@@ -11,19 +11,19 @@ export class LeadsService {
 
   constructor(protected injector: Injector, protected http: HttpClient) { }
 
-  getAll(): Observable<any[]> { 
+  getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  changeStatusLead(id: number, status: number, price: number): any  {
+  changeStatusLead(id: number, status: number, price: number): Observable<any> {
     let body = { status, price }
 
-    this.http.put<any>(this.apiUrl + id, body)
-    .subscribe({
-      next: data => {return data},
-      error: error => {
-          console.error('There was an error!', error);
-      }
-    }); 
+    return this.http.put<any>(this.apiUrl + id, body);
+  }
+
+  sendMailAccepted(id: number, email: string): Observable<any> {
+    let body = { email }
+
+    return this.http.post<any>(`${this.apiUrl}/SendMailAccepted/${id}`, body);
   }
 }

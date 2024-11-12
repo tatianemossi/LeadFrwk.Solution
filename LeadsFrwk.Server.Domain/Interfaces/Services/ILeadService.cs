@@ -9,5 +9,6 @@ namespace LeadsFrwk.Server.Domain.Interfaces.Services
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<IEnumerable<Lead>> GetAllAsync(CancellationToken cancellationToken);
         Task<Lead?> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task<bool> SendMailAsync(int id, string email, CancellationToken cancellationToken);
     }
 }

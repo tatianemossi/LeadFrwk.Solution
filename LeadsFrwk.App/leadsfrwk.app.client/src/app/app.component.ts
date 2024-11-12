@@ -31,37 +31,55 @@ export class AppComponent implements OnInit {
   public leadsAccepteds: Lead[] = [];
   public config = new MatSnackBarConfig();
   public showLoader: boolean = false;
+  public leadsAcceptedsExists: boolean = false;
 
   constructor(private http: HttpClient, private leadsService: LeadsService, private _snackBar: MatSnackBar) { }
-
   ngOnInit() {
     this.getLeads();
   }
 
   getLeads() {
-    this.leadsService.getAll().subscribe(
-      (data) => {
-        this.leads = data;
-        this.leadsAccepteds = data.filter(x => x.status == 1);
-      },
+    this.leadsService.getAll().subscribe((data) => {
+      this.leads = data;
+      this.leadsAccepteds = data.filter(x => x.status == 1);
+
+      if (this.leadsAccepteds.length > 0)
+        this.leadsAcceptedsExists = true;
+    },
       (error) => console.error('Error loading results', error));
   }
 
-  changeStatusLead(id: number, status: number, price: number) {
-    let result = this.leadsService.changeStatusLead(id, status, price);
+  changeStatusLead(id: number, status: number, price: number, email: string) {
+    this.showLoader = true;
 
-    if (result == HttpStatusCode.Ok) {
-      this.openSnackBar("Status has not changed, please try again or contact to support");
-    }
-    else {
-      this.showLoader = true;
-      setTimeout(() => { location.reload() }, 3000);
-      this.openSnackBar("Status changed successfully");
-    }
+    this.leadsService.changeStatusLead(id, status, price).subscribe((response) => {
+
+      this._snackBar.open(response.message, '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['text-white']
+      });
+
+      setTimeout(() => { location.reload() }, 1500);
+    });
+
+    if (status == 1)
+      this.sendMailAccepted(id, email);
   }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message);
+  sendMailAccepted(id: number, email: string) {
+    this.leadsService.sendMailAccepted(id, email).subscribe((response) => {
+
+      this._snackBar.open(response.message, '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['text-white']
+      });
+
+      setTimeout(() => { location.reload() }, 1500);
+    });
   }
 
   loadStatus(status: number) {

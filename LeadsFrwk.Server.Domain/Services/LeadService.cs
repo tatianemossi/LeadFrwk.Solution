@@ -45,5 +45,20 @@ namespace LeadsFrwk.Server.Domain.Services
             await _leadRepository.RemoveAsync(lead, cancellationToken);
             return true;
         }
+        public async Task<bool> SendMailAsync(int id, string email, CancellationToken cancellationToken)
+        {
+            var lead = await _leadRepository.GetByIdAsync(id, cancellationToken);
+
+            if (lead is null)
+                return false;
+
+            SendMail(lead.Id, lead.Email);
+            return true;
+        }
+
+        public bool SendMail(int id, string email)
+        {
+            return true;
+        }
     }
 }

@@ -1,71 +1,89 @@
-<mat-tab-group dynamicHeight>
+<div class="grandpa">
 
-  <mat-tab label="Invited">
-    <mat-card class="card-container" *ngFor="let item of leads">
-      <div class="content-container">
-        <div class="header">
-          <mat-icon class="avatar">account_circle</mat-icon>
-          <div>
-            <h3>{{item.contactFirstName}}</h3>
-            <p>{{item.createDate | date: 'dd/MM/yyyy'}}</p>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="details">
-          <p class="details-content">
-            <mat-icon class="icon">place</mat-icon> {{item.suburb}}
-            <span class="spacer"></span>
-            <mat-icon class="icon">work</mat-icon> {{this.loadCategory(item.category)}}
-            <span class="spacer"></span>
-            Job ID: {{item.id}}
-          </p>
-          <mat-divider></mat-divider>
-          <p class="margin">{{item.description}}</p>
-          <mat-divider></mat-divider>
-        </div>
-        <div class="actions">
-          <button mat-button class="btnAccept" (click)="changeStatusLead(item.id, 1, item.price)">Accept</button>
-          <button mat-button class="btnDecline" (click)="changeStatusLead(item.id, 2, item.price)">Decline</button>
-          <p class="lead-invitation">{{item.price | currency}} {{this.loadStatus(item.status)}}</p>
-        </div>
-      </div>
-    </mat-card>
-    <div class="loader">
-      <mat-progress-bar *ngIf="showLoader" mode="buffer"></mat-progress-bar>
-    </div>
-  </mat-tab>
+    <mat-tab-group dynamicHeight>
 
-  <mat-tab label="Accepted">
-    <div class="example-large-box mat-elevation-z4">
-      <mat-card class="card-container" *ngFor="let item of leadsAccepteds">
-        <div class="content-container">
-          <div class="header">
-            <mat-icon class="avatar">account_circle</mat-icon>
+        <mat-tab label="Invited">
             <div>
-              <h3>{{item.contactFirstName}} {{item.contactLastName}}</h3>
-              <p>{{item.createDate | date: 'dd/MM/yyyy'}}</p>
+                <mat-card class="card-container" *ngFor="let item of leads">
+                    <div class="content-container">
+                        <div class="header">
+                            <mat-icon class="avatar">account_circle</mat-icon>
+                            <div>
+                                <h3>{{item.contactFirstName}}</h3>
+                                <p>{{item.createDate | date: 'dd/MM/yyyy'}}</p>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="details">
+                            <p class="details-content">
+                                <mat-icon class="icon">place</mat-icon> {{item.suburb}}
+                                <span class="spacer"></span>
+                                <mat-icon class="icon">work</mat-icon> {{this.loadCategory(item.category)}}
+                                <span class="spacer"></span>
+                                Job ID: {{item.id}}
+                            </p>
+                            <mat-divider></mat-divider>
+                            <p class="margin">{{item.description}}</p>
+                            <mat-divider></mat-divider>
+                        </div>
+                        <div class="actions">
+                            <button mat-button class="btnAccept" [disabled]="item.status === 1"
+                                (click)="changeStatusLead(item.id, 1, item.price, item.email)">Accept</button>
+                            <button mat-button class="btnDecline" [disabled]="item.status === 1"
+                                (click)="changeStatusLead(item.id, 2, item.price, item.email)">Decline</button>
+                            <p class="lead-invitation">{{item.price | currency}} {{this.loadStatus(item.status)}}</p>
+                        </div>
+                    </div>
+                </mat-card>
             </div>
-          </div>
-          <mat-divider></mat-divider>
-          <div class="details">
-            <div class="dp-accept">
-              <span class="text"><mat-icon class="icon">place</mat-icon> {{item.suburb}}</span>
-              <span class="text"><mat-icon class="icon">work</mat-icon> {{this.loadCategory(item.category)}}</span>
-              <span class="text">Job ID: {{item.id}}</span>
-              <span class="text">{{item.price | currency}}</span>
-              <span class="text">{{this.loadStatus(item.status)}}</span>
+            <div class="loader">
+                <mat-progress-bar *ngIf="showLoader" mode="buffer"></mat-progress-bar>
             </div>
-            <mat-divider></mat-divider>
-            <div class="dp-accept orange">
-              <span class="text"><mat-icon class="icon">phone</mat-icon> {{item.phoneNumber}}</span>
-              <span class="text"><mat-icon class="icon">mail</mat-icon> {{item.email}}</span>
-            </div>
-            <p class="margin">{{item.description}}</p>
-            <mat-divider></mat-divider>
-          </div>
-        </div>
-      </mat-card>
-    </div>
-  </mat-tab>
+        </mat-tab>
 
-</mat-tab-group>
+        <mat-tab label="Accepted">
+            <div class="header daugther" *ngIf="!leadsAcceptedsExists">
+                <mat-card class="card-container">
+                    <div class="content-container">
+                        <mat-divider></mat-divider>
+                        <div class="details">
+                            <p class="margin">No leads <b class="orange">accepted</b></p>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div *ngIf="leadsAcceptedsExists">
+                <mat-card class="card-container" *ngFor="let item of leadsAccepteds">
+                    <div class="content-container">
+                        <div class="header">
+                            <mat-icon class="avatar">account_circle</mat-icon>
+                            <div>
+                                <h3>{{item.contactFirstName}} {{item.contactLastName}}</h3>
+                                <p>{{item.createDate | date: 'dd/MM/yyyy'}}</p>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="details">
+                            <div class="dp-accept text">
+                                <span><mat-icon class="icon">place</mat-icon> {{item.suburb}}</span>
+                                <span><mat-icon class="icon">work</mat-icon> {{this.loadCategory(item.category)}}</span>
+                                <span>Job ID: {{item.id}}</span>
+                                <span>{{item.price | currency}}</span>
+                                <span>{{this.loadStatus(item.status)}}</span>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="dp-accept orange">
+                                <span class="text"><mat-icon class="icon">phone</mat-icon> {{item.phoneNumber}}</span>
+                                <span class="text"><mat-icon class="icon">mail</mat-icon> {{item.email}}</span>
+                            </div>
+                            <p class="margin">{{item.description}}</p>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
+</div>
